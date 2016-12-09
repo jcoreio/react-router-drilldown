@@ -20,7 +20,7 @@ This is my personal skeleton for creating a React library npm package.  You are 
 * flow-watch
 * enzyme
 * jsdom
+* pre-commit (runs eslnt and flow)
+* semantic-release
 * Travis CI
 * Coveralls
-
-The `prepublish` script checks the output of `eslint` and `flow` and runs tests.
