@@ -24,3 +24,4 @@ This is my personal skeleton for creating a React library npm package.  You are 
 * semantic-release
 * Travis CI
 * Coveralls
+
