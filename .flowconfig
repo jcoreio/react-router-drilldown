@@ -1,7 +1,7 @@
 [ignore]
 <PROJECT_ROOT>/lib/.*
 .*/node_modules/.*/__test__/.*
-.*/node_modules/json5/.*
+.*/node_modules/.*/tests?/.*\.json
 
 [include]
 ./src
