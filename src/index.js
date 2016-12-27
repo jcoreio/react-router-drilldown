@@ -73,6 +73,7 @@ export function createDrilldown(config: {
       position: null,
       transitioning: false,
     }
+    innerDiv: ?HTMLDivElement
     timeouts: {[name: string]: number} = {}
 
     setTimeout(name: string, callback: () => any, delay: number) {
@@ -107,7 +108,9 @@ export function createDrilldown(config: {
       else if (this.state.position) this.setStateLater({transitioning: true})
     }
 
-    onTransitionEnd = () => {
+    onTransitionEnd = (e?: Event) => {
+      // prevent transitionend events from descendants from triggering this
+      if (e && e.target !== this.innerDiv) return
       if (this.timeouts.onTransitionEnd) clearTimeout(this.timeouts.onTransitionEnd)
       const side = getSide(this.props)
       if (side !== this.state.position) return
@@ -165,7 +168,12 @@ export function createDrilldown(config: {
 
       return (
         <div style={outerStyle} {...restProps}>
-          <div className={innerClassName} style={finalInnerStyle} onTransitionEnd={onTransitionEnd}>
+          <div
+              className={innerClassName}
+              style={finalInnerStyle}
+              ref={c => this.innerDiv = c}
+              onTransitionEnd={onTransitionEnd}
+          >
             {left && renderChild({
               side: 'left',
               transitionState: getTransitionState('left'),
