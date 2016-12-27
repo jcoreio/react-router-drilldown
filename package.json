@@ -1,7 +1,7 @@
 {
   "name": "react-router-drilldown",
   "version": "0.0.0-development",
-  "description": "animated drilldown transitions for react-router",
+  "description": "provides drilldown-style horizontal slide transitions between index and child routes",
   "main": "lib/index.js",
   "scripts": {
     "lint": "eslint src test stories",
@@ -44,9 +44,12 @@
     "url": "git+https://github.com/jcoreio/react-router-drilldown.git"
   },
   "keywords": [
-    "es2015",
     "react",
-    "skeleton"
+    "react-router",
+    "drilldown",
+    "route",
+    "transition",
+    "animation"
   ],
   "author": "Andy Edwards",
   "license": "MIT",
