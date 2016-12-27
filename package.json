@@ -4,9 +4,9 @@
   "description": "provides drilldown-style horizontal slide transitions between index and child routes",
   "main": "lib/index.js",
   "scripts": {
-    "lint": "eslint src test stories",
-    "lint:fix": "eslint --fix src test stories",
-    "lint:watch": "esw --watch src test stories",
+    "lint": "eslint demo.webpack.config.js src test stories",
+    "lint:fix": "eslint --fix demo.webpack.config.js src test stories",
+    "lint:watch": "esw --watch demo.webpack.config.js src test stories",
     "flow": "flow",
     "flow:coverage": "for file in src/**.js test/**.js; do echo $file; flow coverage $file; done",
     "flow:watch": "flow-watch -e js,js.flow,flowconfig --ignore lib/ --ignore node_modules/ --watch .flowconfig --watch src/ --watch test/",
@@ -20,6 +20,7 @@
     "prepublish": "npm run lint && flow && npm test && npm run build && npm run copy-flow-files",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
+    "build:demo": "webpack --config demo.webpack.config.js --progress",
     "open:coverage": "open coverage/lcov-report/index.html",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
@@ -64,6 +65,7 @@
     "babel-cli": "^6.18.0",
     "babel-core": "^6.21.0",
     "babel-eslint": "^7.1.1",
+    "babel-loader": "^6.2.10",
     "babel-plugin-flow-react-proptypes": "^0.19.0",
     "babel-plugin-istanbul": "^3.0.0",
     "babel-plugin-transform-react-constant-elements": "^6.9.1",
@@ -100,7 +102,8 @@
     "rimraf": "^2.5.4",
     "semantic-release": "^6.3.2",
     "sinon": "^1.17.6",
-    "validate-commit-msg": "^2.8.2"
+    "validate-commit-msg": "^2.8.2",
+    "webpack": "^1.14.0"
   },
   "peerDependencies": {
     "react": "0.14.x || ^15.0.0",
