@@ -1,7 +1,7 @@
 {
-  "name": "react-library-skeleton",
+  "name": "react-router-drilldown",
   "version": "0.0.0-development",
-  "description": "my personal skeleton for React library NPM packages",
+  "description": "animated drilldown transitions for react-router",
   "main": "lib/index.js",
   "scripts": {
     "lint": "eslint src test stories",
@@ -41,7 +41,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jedwards1211/react-library-skeleton.git"
+    "url": "git+https://github.com/jcoreio/react-router-drilldown.git"
   },
   "keywords": [
     "es2015",
@@ -51,9 +51,9 @@
   "author": "Andy Edwards",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jedwards1211/react-library-skeleton/issues"
+    "url": "https://github.com/jcoreio/react-router-drilldown/issues"
   },
-  "homepage": "https://github.com/jedwards1211/react-library-skeleton#readme",
+  "homepage": "https://github.com/jcoreio/react-router-drilldown#readme",
   "devDependencies": {
     "@jedwards1211/eslint-config-flow": "^1.0.0",
     "@jedwards1211/eslint-config-react": "^1.0.1",
@@ -85,18 +85,24 @@
     "istanbul": "^0.4.5",
     "jsdom": "^9.9.1",
     "jsdom-global": "^2.1.1",
+    "lodash.size": "^4.2.0",
     "mocha": "^3.2.0",
     "nyc": "^10.0.0",
     "react": "^15.4.1",
+    "react-addons-css-transition-group": "^15.4.1",
     "react-addons-test-utils": "^15.4.1",
     "react-dom": "^15.4.1",
     "react-hot-loader": "^3.0.0-beta.2",
+    "react-router": "^3.0.0",
     "rimraf": "^2.5.4",
     "semantic-release": "^6.3.2",
+    "sinon": "^1.17.6",
     "validate-commit-msg": "^2.8.2"
   },
   "peerDependencies": {
-    "react": "0.14.x || ^15.0.0"
+    "react": "0.14.x || ^15.0.0",
+    "react-router": "^2.0.0 || ^3.0.0",
+    "react-addons-css-transition-group": "0.14.x || ^15.0.0"
   },
   "dependencies": {}
 }
