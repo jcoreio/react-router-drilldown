@@ -8,7 +8,7 @@
 This is a simple component that provides drilldown-style horizontal slide transitions between index and child routes.
 Currently it only supports `react-router` versions 2 and 3.
 
-[Live Demo](http://jcoreio.github.io/react-router-drilldown)
+[Live Demo](http://jcoreio.github.io/react-router-drilldown/)
 
 ## Usage
 ```
