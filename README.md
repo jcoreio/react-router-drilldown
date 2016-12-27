@@ -17,6 +17,7 @@ npm install --save react-router-drilldown
 
 ```js
 import React from 'react'
+import {render} from 'react-dom'
 import {Router, Route, IndexRoute, Link, browserHistory} from 'react-router'
 import Drilldown from 'react-router-drilldown'
 
@@ -37,15 +38,18 @@ const Users = () => (
 
 const Andy = () => <h1>Andy</h1>
 
-<Router history={browserHistory}>
-  <Route path="/" component={Drilldown}>
-    <IndexRoute component={Home} />
-    <Route path="users" component={Drilldown}>
-      <IndexRoute component={Users} />
-      <Route path="andy" component={Andy} />
+render(
+  <Router history={browserHistory}>
+    <Route path="/" component={Drilldown}>
+      <IndexRoute component={Home} />
+      <Route path="users" component={Drilldown}>
+        <IndexRoute component={Users} />
+        <Route path="andy" component={Andy} />
+      </Route>
     </Route>
-  </Route>
-</Router>
+  </Router>,
+  document.getElementById('root')
+)
 ```
 
 Note how the `/` and `users` routes both have `component={Drilldown}`.  `Drilldown` only animates transitions at one
@@ -61,6 +65,7 @@ npm install --save react-router-drilldown react-transition-context
 
 ```js
 import React from 'react'
+import {render} from 'react-dom'
 import {Router, Route, IndexRoute, Link, browserHistory} from 'react-router'
 import Drilldown from 'react-router-drilldown/lib/withTransitionContext'
 import {TransitionListener} from 'react-transition-context'
@@ -92,15 +97,18 @@ class Andy extends React.Component {
   }
 }
 
-<Router history={browserHistory}>
-  <Route path="/" component={Drilldown}>
-    <IndexRoute component={Home} />
-    <Route path="users" component={Drilldown}>
-      <IndexRoute component={Users} />
-      <Route path="andy" component={Andy} />
+render(
+  <Router history={browserHistory}>
+    <Route path="/" component={Drilldown}>
+      <IndexRoute component={Home} />
+      <Route path="users" component={Drilldown}>
+        <IndexRoute component={Users} />
+        <Route path="andy" component={Andy} />
+      </Route>
     </Route>
-  </Route>
-</Router>
+  </Router>,
+  document.getElementById('root')
+)
 ```
 
 ## customization
@@ -118,6 +126,7 @@ This package also exports a `createDrilldown` function that accepts `transitionT
 
 ```js
 import React from 'react'
+import {render} from 'react-dom'
 import {Router, Route, IndexRoute, Link, browserHistory} from 'react-router'
 import {createDrilldown} from 'react-router-drilldown'
 
@@ -148,14 +157,17 @@ const Users = () => (
 
 const Andy = () => <h1>Andy</h1>
 
-<Router history={browserHistory}>
-  <Route path="/" component={Drilldown}>
-    <IndexRoute component={Home} />
-    <Route path="users" component={Drilldown}>
-      <IndexRoute component={Users} />
-      <Route path="andy" component={Andy} />
+render(
+  <Router history={browserHistory}>
+    <Route path="/" component={Drilldown}>
+      <IndexRoute component={Home} />
+      <Route path="users" component={Drilldown}>
+        <IndexRoute component={Users} />
+        <Route path="andy" component={Andy} />
+      </Route>
     </Route>
-  </Route>
-</Router>
+  </Router>,
+  document.getElementById('root')
+)
 ```
 
