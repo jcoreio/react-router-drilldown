@@ -1,21 +1,46 @@
 import React from 'react'
-import { storiesOf } from '@kadira/storybook'
-import {Router, Route, IndexRoute, Link, hashHistory} from 'react-router'
+import {storiesOf} from '@kadira/storybook'
+import {Router, Route, IndexRoute, Link, hashHistory, withRouter} from 'react-router'
 import Drilldown from '../src/withTransitionContext'
 import {TransitionListener} from 'react-transition-context'
 
+const style = {margin: '15px auto', maxWidth: 600}
+
+const Title = withRouter(({children, location: {pathname}}) => (
+  <h1>
+    <Link
+        to={pathname.substring(0, pathname.lastIndexOf('/'))}
+        style={{verticalAlign: 'middle', marginRight: 15}}
+    >
+      <span className="glyphicon glyphicon-menu-left" />
+    </Link>
+    {children}
+  </h1>
+))
+
+const DrilldownLink = ({children, ...props}) => (
+  <Link className="list-group-item" {...props}>
+    <span style={{float: 'right'}} className="glyphicon glyphicon-menu-right" />
+    {children}
+  </Link>
+)
+
 const Home = () => (
-  <div>
+  <div style={style}>
     <h1>Home</h1>
-    <p><Link to="/users">Users</Link></p>
-    <p><Link to="/users/andy">Andy</Link></p>
+    <div className="list-group">
+      <DrilldownLink to="/users">Users</DrilldownLink>
+      <DrilldownLink to="/users/andy">Andy</DrilldownLink>
+    </div>
   </div>
 )
 
 const Users = () => (
-  <div>
-    <h1>Users</h1>
-    <Link to="/users/andy">Andy</Link>
+  <div style={style}>
+    <Title>Users</Title>
+    <div className="list-group">
+      <DrilldownLink to="/users/andy">Andy</DrilldownLink>
+    </div>
   </div>
 )
 
@@ -23,9 +48,9 @@ const Users = () => (
 class Andy extends React.Component {
   render() {
     return (
-      <div>
-        <h1>Andy</h1>
-        <input ref={c => this.email = c} placeholder="email" />
+      <div style={style}>
+        <Title>Andy</Title>
+        <input ref={c => this.email = c} className="form-control" placeholder="email" />
         <TransitionListener didComeIn={() => this.email.focus()} />
       </div>
     )
