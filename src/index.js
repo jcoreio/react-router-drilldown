@@ -3,32 +3,31 @@
 
 import React, {Component} from 'react'
 import size from 'lodash.size'
+import Prefixer from 'inline-style-prefixer'
 
 type Side = 'left' | 'right'
 type TransitionState = 'in' | 'out' | 'entering' | 'leaving'
 
-type ChildProps = {
+export type ChildProps = {
   side: Side,
-  position: ?Side,
-  transitioning: boolean,
   transitionState: TransitionState,
-  transitionTimeout: number,
-  child: any,
-  onTransitionEnd: (callback: () => any) => any;
+  children: any,
+  style: Object,
 }
 
 type Route = {
   indexRoute?: Route,
 }
 
-type Props = {
+export type Props = {
   className?: string,
   style?: Object,
+  innerClassName?: string,
+  innerStyle?: Object,
   route: Route,
   routes: Array<Route>,
-  renderChild: (props: ChildProps) => React.Element<any>,
-  transitionTimeout: number,
   children: any,
+  prefixer?: {+prefix: (styles: Object) => Object},
 }
 
 type State = {
@@ -52,48 +51,14 @@ const oppositeSide: {[side: Side]: Side} = {
 }
 
 export function defaultRenderChild(props: ChildProps): React.Element<any> {
-  const {
-    position,
-    transitioning,
-    transitionTimeout,
-    child,
-  } = props
-
-  const transition = transitioning ? `transform ease-out ${transitionTimeout}ms` : ''
-  const transform = position === 'right' ? 'translateX(-100%)' : 'translateX(0)'
-  const style = {
-    display: 'inline-block',
-    width: '100%',
-    transition,
-    OTransition: transition,
-    msTransition: transition,
-    MozTransition: transition,
-    KhtmlTransition: transition,
-    WebkitTransition: transition,
-    transform,
-    OTransform: transform,
-    msTransform: transform,
-    MozTransform: transform,
-    KhtmlTransform: transform,
-    WebkitTransform: transform,
-    verticalAlign: 'top',
-    ...(props: Object).style || {},
-  }
-
   const restProps = {...props}
   delete restProps.side
-  delete restProps.position
-  delete restProps.transitioning
   delete restProps.transitionState
-  delete restProps.transitionTimeout
-  delete restProps.child
 
-  return (
-    <div style={style} {...restProps}>
-      {child}
-    </div>
-  )
+  return <div {...restProps} />
 }
+
+const defaultPrefixer = new Prefixer()
 
 export function createDrilldown(config: {
   renderChild?: (props: ChildProps) => React.Element<any>,
@@ -108,12 +73,15 @@ export function createDrilldown(config: {
       position: null,
       transitioning: false,
     }
-    mounted: boolean = false
-    setStateTimeout: ?number
-    transitionTimeout: ?number
+    timeouts: {[name: string]: number} = {}
 
-    componentWillMount() {
-      this.mounted = true
+    setTimeout(name: string, callback: () => any, delay: number) {
+      if (this.timeouts[name]) clearTimeout(this.timeouts[name])
+      this.timeouts[name] = setTimeout(callback, delay)
+    }
+
+    setStateLater(newState: $Shape<State>) {
+      this.setTimeout('setState', () => this.setState(newState), 17)
     }
 
     componentWillReceiveProps(nextProps: Props) {
@@ -126,15 +94,9 @@ export function createDrilldown(config: {
       if (size(nextState)) this.setState(nextState)
     }
 
-    setStateLater(newState: $Shape<State>) {
-      if (this.setStateTimeout != null) clearTimeout(this.setStateTimeout)
-      this.setStateTimeout = setTimeout(() => this.setState(newState), 17)
-    }
-
     componentWillUpdate(nextProps: Props, nextState: State) {
       if (this.state.position && nextState.position && this.state.position !== nextState.position) {
-        if (this.transitionTimeout != null) clearTimeout(this.transitionTimeout)
-        this.transitionTimeout = setTimeout(this.onTransitionEnd, transitionTimeout)
+        this.setTimeout('onTransitionEnd', this.onTransitionEnd, transitionTimeout)
       }
     }
 
@@ -146,9 +108,9 @@ export function createDrilldown(config: {
     }
 
     onTransitionEnd = () => {
-      if (this.transitionTimeout != null) clearTimeout(this.transitionTimeout)
+      if (this.timeouts.onTransitionEnd) clearTimeout(this.timeouts.onTransitionEnd)
       const side = getSide(this.props)
-      if (!this.mounted || side !== this.state.position) return
+      if (side !== this.state.position) return
       this.setState({
         [oppositeSide[side]]: null,
         position: null,
@@ -157,13 +119,11 @@ export function createDrilldown(config: {
     }
 
     componentWillUnmount() {
-      if (this.transitionTimeout != null) clearTimeout(this.transitionTimeout)
-      if (this.setStateTimeout != null) clearTimeout(this.setStateTimeout)
-      this.mounted = false
+      for (let name in this.timeouts) clearTimeout(this.timeouts[name])
     }
 
     render(): React.Element<any> {
-      const {className, style} = this.props
+      const {style, innerClassName, innerStyle, prefixer} = this.props
       const {left, right, position, transitioning} = this.state
       const {onTransitionEnd} = this
 
@@ -172,32 +132,53 @@ export function createDrilldown(config: {
         return side === getSide(this.props) ? 'entering' : 'leaving'
       }
 
-      const finalStyle = {
-        whiteSpace: 'nowrap',
+      const outerStyle = {
         overflow: 'hidden',
         ...style || {},
       }
 
+      const finalInnerStyle = (prefixer || defaultPrefixer).prefix({
+        whiteSpace: 'nowrap',
+        transition: transitioning ? `transform ease-out ${transitionTimeout}ms` : '',
+        transform: position === 'right' ? 'translateX(-100%)' : 'translateX(0)',
+        ...innerStyle || {},
+      })
+
+      const childStyle = {
+        width: '100%',
+        display: 'inline-block',
+        verticalAlign: 'top',
+      }
+
+      const restProps = {...this.props}
+      delete restProps.style
+      delete restProps.innerClassName
+      delete restProps.innerStyle
+      delete restProps.prefixer
+      delete restProps.route
+      delete restProps.routes
+      delete restProps.children
+      delete restProps.location
+      delete restProps.params
+      delete restProps.router
+      delete restProps.routeParams
+
       return (
-        <div className={className} style={finalStyle}>
-          {left && renderChild({
-            side: 'left',
-            position,
-            transitioning,
-            transitionState: getTransitionState('left'),
-            transitionTimeout,
-            onTransitionEnd,
-            child: left,
-          })}
-          {right && renderChild({
-            side: 'right',
-            position,
-            transitioning,
-            transitionState: getTransitionState('right'),
-            transitionTimeout,
-            onTransitionEnd,
-            child: right,
-          })}
+        <div style={outerStyle} {...restProps}>
+          <div className={innerClassName} style={finalInnerStyle} onTransitionEnd={onTransitionEnd}>
+            {left && renderChild({
+              side: 'left',
+              transitionState: getTransitionState('left'),
+              children: left,
+              style: childStyle,
+            })}
+            {right && renderChild({
+              side: 'right',
+              transitionState: getTransitionState('right'),
+              children: right,
+              style: childStyle,
+            })}
+          </div>
         </div>
       )
     }
