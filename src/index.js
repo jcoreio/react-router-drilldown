@@ -151,6 +151,7 @@ export function createDrilldown(config: {
         width: '100%',
         display: 'inline-block',
         verticalAlign: 'top',
+        whiteSpace: 'initial',
       }
 
       const restProps = {...this.props}
