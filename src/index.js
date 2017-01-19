@@ -17,6 +17,7 @@ export type ChildProps = {
 
 type Route = {
   indexRoute?: Route,
+  path?: string,
 }
 
 export type Props = {
@@ -55,7 +56,7 @@ export function defaultRenderChild(props: ChildProps): React.Element<any> {
   delete restProps.side
   delete restProps.transitionState
 
-  return <div {...restProps} />
+  return <div data-transition-state={props.transitionState} {...restProps} />
 }
 
 const defaultPrefixer = new Prefixer()
@@ -110,7 +111,7 @@ export function createDrilldown(config: {
 
     onTransitionEnd = (e?: Event) => {
       // prevent transitionend events from descendants from triggering this
-      if (e && e.target !== this.innerDiv) return
+      if (e && e.target && e.target !== this.innerDiv) return
       if (this.timeouts.onTransitionEnd) clearTimeout(this.timeouts.onTransitionEnd)
       const side = getSide(this.props)
       if (side !== this.state.position) return
@@ -168,7 +169,7 @@ export function createDrilldown(config: {
       delete restProps.routeParams
 
       return (
-        <div style={outerStyle} {...restProps}>
+        <div data-react-router-drilldown-root data-route-path={this.props.route.path} style={outerStyle} {...restProps}>
           <div
               className={innerClassName}
               style={finalInnerStyle}
