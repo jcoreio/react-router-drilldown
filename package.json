@@ -113,6 +113,7 @@
     "react-transition-context": "^1.0.0-beta8"
   },
   "dependencies": {
-    "inline-style-prefixer": "^2.0.5"
+    "inline-style-prefixer": "^2.0.5",
+    "prop-types": "^15.5.10"
   }
 }
