@@ -2,13 +2,14 @@ import React from 'react'
 import {Router, Route, IndexRoute, Link, hashHistory, withRouter} from 'react-router'
 import Drilldown from '../src/withTransitionContext'
 import {TransitionListener} from 'react-transition-context'
+import 'react-view-slider/lib/react-view-slider.css'
 
 const style = {margin: '15px auto', maxWidth: 600}
 
 const Title = withRouter(({children, location: {pathname}}) => (
   <h1>
     <Link
-        to={pathname.substring(0, pathname.lastIndexOf('/'))}
+        to={pathname.substring(0, pathname.lastIndexOf('/')) || '/'}
         style={{verticalAlign: 'middle', marginRight: 15}}
     >
       <span className="glyphicon glyphicon-menu-left" />
