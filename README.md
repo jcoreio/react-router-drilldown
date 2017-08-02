@@ -16,16 +16,11 @@ Currently it only supports `react-router` versions 2 and 3.
 npm install --save react-router-drilldown react-view-slider
 ```
 
-**Make sure to include `react-view-slider/lib/react-view-slider.css` on your page.**
-
 ```js
 import React from 'react'
 import {render} from 'react-dom'
 import {Router, Route, IndexRoute, Link, browserHistory} from 'react-router'
 import Drilldown from 'react-router-drilldown'
-
-// If using Webpack:
-import 'react-view-slider/lib/react-view-slider.css'
 
 const Home = () => (
   <div>
@@ -75,9 +70,6 @@ import {render} from 'react-dom'
 import {Router, Route, IndexRoute, Link, browserHistory} from 'react-router'
 import Drilldown from 'react-router-drilldown/lib/withTransitionContext'
 import {TransitionListener} from 'react-transition-context'
-
-// If using Webpack:
-import 'react-view-slider/lib/react-view-slider.css'
 
 const Home = () => (
   <div>

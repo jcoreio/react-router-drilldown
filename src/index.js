@@ -3,7 +3,7 @@
 
 import React, {Component} from 'react'
 import DefaultViewSlider from 'react-view-slider'
-import type {PageProps, Props as ViewSliderProps} from 'react-view-slider'
+import type {ViewProps, Props as ViewSliderProps} from 'react-view-slider'
 import type {Prefixer} from 'inline-style-prefixer'
 
 type Side = 'left' | 'right'
@@ -40,7 +40,7 @@ type State = {
   children: [any, any],
 }
 
-function getActivePage({route, routes}: Props): number {
+function getActiveView({route, routes}: Props): number {
   return routes[routes.length - 1] === route.indexRoute ? 0 : 1
 }
 
@@ -53,22 +53,22 @@ export function createDrilldown(config: {
     constructor(props: Props) {
       super(props)
       const children: [any, any] = [null, null]
-      children[getActivePage(props)] = props.children
+      children[getActiveView(props)] = props.children
       this.state = {children}
     }
 
     componentWillReceiveProps(nextProps: Props) {
       const {children} = nextProps
-      const pageIndex = getActivePage(nextProps)
-      if (this.state.children[pageIndex] !== children) {
+      const viewIndex = getActiveView(nextProps)
+      if (this.state.children[viewIndex] !== children) {
         const newChildren = [...this.state.children]
-        newChildren[pageIndex] = children
+        newChildren[viewIndex] = children
         this.setState({children: newChildren})
       }
     }
 
-    renderPage = ({index, key, ref, className, style, transitionState}: PageProps): React.Element<any> => (
-      <div key={key} ref={ref} className={className} style={style} data-transition-state={transitionState}>
+    renderView = ({index, key, ref, style, transitionState}: ViewProps): React.Element<any> => (
+      <div key={key} ref={ref} style={style} data-transition-state={transitionState}>
         {this.state.children[index]}
       </div>
     )
@@ -83,9 +83,9 @@ export function createDrilldown(config: {
 
       return (
         <ViewSlider
-            numPages={2}
-            activePage={getActivePage(this.props)}
-            renderPage={this.renderPage}
+            numViews={2}
+            activeView={getActiveView(this.props)}
+            renderView={this.renderView}
             animateHeight={animateHeight}
             transitionDuration={transitionDuration}
             transitionTimingFunction={transitionTimingFunction}

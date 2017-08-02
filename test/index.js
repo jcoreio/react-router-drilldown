@@ -4,25 +4,18 @@ import React from 'react'
 import {mount} from 'enzyme'
 import {expect} from 'chai'
 import {Router, Route, IndexRoute, Link, createMemoryHistory} from 'react-router'
-import sinon from 'sinon'
-import {createDrilldown, defaultRenderChild} from '../src'
+import Drilldown from '../src'
 
 function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
 describe('Drilldown', () => {
-  let comp, history, topRenderChild, midRenderChild
+  let comp, history
 
   function init(location = '/') {
-    topRenderChild = sinon.spy(defaultRenderChild)
-    const TopDrilldown = createDrilldown({
-      renderChild: topRenderChild,
-    })
-    midRenderChild = sinon.spy(defaultRenderChild)
-    const MidDrilldown = createDrilldown({
-      renderChild: midRenderChild,
-    })
+    const TopDrilldown = props => <Drilldown {...props} viewportClassName="top-drilldown" />
+    const MidDrilldown = props => <Drilldown {...props} viewportClassName="mid-drilldown" />
 
     const Home = () => (
       <div className="home">
@@ -63,49 +56,51 @@ describe('Drilldown', () => {
     init()
 
     expect(comp.find('h1').text()).to.equal('Home')
-    expect(topRenderChild.args[0][0].transitionState).to.equal('in')
-    topRenderChild.reset()
+    const home = comp.find('.top-drilldown').children().at(0)
+    expect(home.prop('data-transition-state')).to.equal('in')
     history.push('/users')
     await delay(300)
-    expect(comp.find('h1').text()).to.equal('Users')
-    expect(topRenderChild.args[0][0].transitionState).to.equal('leaving')
-    expect(topRenderChild.args[1][0].transitionState).to.equal('entering')
-    expect(topRenderChild.args[topRenderChild.args.length - 1][0].side).to.equal('right')
-    expect(topRenderChild.args[topRenderChild.args.length - 1][0].transitionState).to.equal('in')
+    const usersParent = comp.find('.top-drilldown').children().at(1)
+    expect(home.prop('data-transition-state')).to.equal('leaving')
+    expect(usersParent.prop('data-transition-state')).to.equal('entering')
+    await delay(500)
+    expect(usersParent.prop('data-transition-state')).to.equal('in')
 
-    topRenderChild.reset()
-    midRenderChild.reset()
     history.push('/users/andy')
     await delay(300)
-    expect(comp.find('h1').text()).to.equal('Andy')
-    expect(midRenderChild.args[0][0].transitionState).to.equal('leaving')
-    expect(midRenderChild.args[1][0].transitionState).to.equal('entering')
-    expect(midRenderChild.args[midRenderChild.args.length - 1][0].side).to.equal('right')
-    expect(midRenderChild.args[midRenderChild.args.length - 1][0].transitionState).to.equal('in')
+    const users = comp.find('.mid-drilldown').children().at(0)
+    const andy = comp.find('.mid-drilldown').children().at(1)
+    expect(usersParent.prop('data-transition-state')).to.equal('in')
+    expect(users.prop('data-transition-state')).to.equal('leaving')
+    expect(andy.prop('data-transition-state')).to.equal('entering')
+    await delay(500)
+    expect(andy.prop('data-transition-state')).to.equal('in')
   })
   it('animates transitions to index routes', async () => {
     init('/users/andy')
 
-    expect(comp.find('h1').text()).to.equal('Andy')
-    expect(midRenderChild.args[0][0].transitionState).to.equal('in')
-    midRenderChild.reset()
+    const usersParent = comp.find('.top-drilldown').children().at(1)
+    const andy = comp.find('.mid-drilldown').children().at(1)
+    expect(usersParent.prop('data-transition-state')).to.equal('in')
+    expect(andy.prop('data-transition-state')).to.equal('in')
     history.push('/users')
     await delay(300)
-    expect(comp.find('h1').text()).to.equal('Users')
-    expect(midRenderChild.args[0][0].transitionState).to.equal('entering')
-    expect(midRenderChild.args[1][0].transitionState).to.equal('leaving')
-    expect(midRenderChild.args[midRenderChild.args.length - 1][0].side).to.equal('left')
-    expect(midRenderChild.args[midRenderChild.args.length - 1][0].transitionState).to.equal('in')
+    const users = comp.find('.mid-drilldown').children().at(0)
+    expect(usersParent.prop('data-transition-state')).to.equal('in')
+    expect(users.prop('data-transition-state')).to.equal('entering')
+    expect(andy.prop('data-transition-state')).to.equal('leaving')
+    await delay(500)
+    expect(usersParent.prop('data-transition-state')).to.equal('in')
+    expect(users.prop('data-transition-state')).to.equal('in')
 
-    topRenderChild.reset()
-    midRenderChild.reset()
     history.push('/')
     await delay(300)
-    expect(comp.find('h1').text()).to.equal('Home')
-    expect(topRenderChild.args[0][0].transitionState).to.equal('entering')
-    expect(topRenderChild.args[1][0].transitionState).to.equal('leaving')
-    expect(topRenderChild.args[topRenderChild.args.length - 1][0].side).to.equal('left')
-    expect(topRenderChild.args[topRenderChild.args.length - 1][0].transitionState).to.equal('in')
+    const home = comp.find('.top-drilldown').children().at(0)
+    expect(home.prop('data-transition-state')).to.equal('entering')
+    expect(usersParent.prop('data-transition-state')).to.equal('leaving')
+    expect(users.prop('data-transition-state')).to.equal('in')
+    await delay(500)
+    expect(home.prop('data-transition-state')).to.equal('in')
   })
   it('handles quick transitions back and forth gracefully', async () => {
     init()
@@ -114,7 +109,7 @@ describe('Drilldown', () => {
     history.push('/')
     await delay(50)
     history.push('/users')
-    await delay(300)
+    await delay(500)
     expect(comp.find('h1').text()).to.equal('Users')
   })
 })

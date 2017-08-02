@@ -2,7 +2,6 @@ import React from 'react'
 import {Router, Route, IndexRoute, Link, hashHistory, withRouter} from 'react-router'
 import Drilldown from '../src/withTransitionContext'
 import {TransitionListener} from 'react-transition-context'
-import 'react-view-slider/lib/react-view-slider.css'
 
 const style = {margin: '15px auto', maxWidth: 600}
 
