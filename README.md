@@ -6,13 +6,14 @@
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
 This is a simple component that provides drilldown-style horizontal slide transitions between index and child routes.
+It is based upon `react-view-slider`.
 Currently it only supports `react-router` versions 2 and 3.
 
 [Live Demo](http://jcoreio.github.io/react-router-drilldown/)
 
 ## Usage
 ```
-npm install --save react-router-drilldown
+npm install --save react-router-drilldown react-view-slider
 ```
 
 ```js
@@ -60,7 +61,7 @@ in your drilldown UI you must use a `Drilldown` on each level.
 You can use this with my [react-transition-context](https://github.com/jedwards1211/react-transition-context) package
 to easily focus elements when a drilldown route has fully entered.
 ```
-npm install --save react-router-drilldown react-transition-context
+npm install --save react-router-drilldown react-view-slider react-transition-context
 ```
 
 ```js
@@ -111,63 +112,48 @@ render(
 )
 ```
 
-## customization
-This package also exports a `createDrilldown` function that accepts `transitionTimeout` and `renderChild` properties
-(this is the API used by `react-router-drilldown/lib/withTransitionContext`).
+## Props that should be injected by `react-router`
 
-`transitionTimeout` is in milliseconds and is used as the timeout if no `transitionend` event is fired, and as the
-`transition-duration`.
+* `route`
+* `routes`
+* `children`
 
-`renderChild` is passed the following properties:
-* `side`: `'left' | 'right'`
-* `transitionState`: `'in' | 'out' | 'entering' | 'leaving'`
-* `children`: the route content
-* `style`: the default inline style
+## Props that are passed along to [`react-view-slider`](https://github.com/jcoreio/react-view-slider)
 
-```js
-import React from 'react'
-import {render} from 'react-dom'
-import {Router, Route, IndexRoute, Link, browserHistory} from 'react-router'
-import {createDrilldown} from 'react-router-drilldown'
+### `animateHeight: boolean` (default: `true`)
 
-const Drilldown = createDrilldown({
-  renderChild: ({side, transitionState, children, style}) => (
-    <div style={style}>
-      <h3>Side: {side}</h3>
-      <h3>Transition State: {transitionState}</h3>
-      {children}
-    </div>
-  ),
-})
+If truthy, `ViewSlider` will animate its height to match the height of the page at `activePage`.
 
-const Home = () => (
-  <div>
-    <h1>Home</h1>
-    <p><Link to="/users">Users</Link></p>
-    <p><Link to="/users/andy">Andy</Link></p>
-  </div>
-)
+### `transitionDuration: number` (default: `500`)
 
-const Users = () => (
-  <div>
-    <h1>Users</h1>
-    <Link to="/users/andy">Andy</Link>
-  </div>
-)
+The duration of the transition between pages.
 
-const Andy = () => <h1>Andy</h1>
+### `transitionTimingFunction: string` (default: `'ease'`)
 
-render(
-  <Router history={browserHistory}>
-    <Route path="/" component={Drilldown}>
-      <IndexRoute component={Home} />
-      <Route path="users" component={Drilldown}>
-        <IndexRoute component={Users} />
-        <Route path="andy" component={Andy} />
-      </Route>
-    </Route>
-  </Router>,
-  document.getElementById('root')
-)
-```
+The timing function for the transition between pages.
+
+### `prefixer: Prefixer`
+
+If given, overrides the `inline-style-prefixer` used to autoprefix inline styles.
+
+### `fillParent: boolean` (default: `false`)
+
+If truthy, `Drilldown` will use absolute positioning on itself and its pages to fill its parent element.
+
+### `className: string`
+
+Any extra class names to add to the root element.
+
+### `style: Object`
+
+Extra inline styles to add to the root element.
+
+### `viewportClassName: string`
+
+Any extra class names to add to the inner "viewport" element.
+
+### `viewportStyle: Object`
+
+Extra inline styles to add to the inner "viewport" element.
+
 
