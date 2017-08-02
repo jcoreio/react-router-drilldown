@@ -8,7 +8,7 @@ const style = {margin: '15px auto', maxWidth: 600}
 const Title = withRouter(({children, location: {pathname}}) => (
   <h1>
     <Link
-        to={pathname.substring(0, pathname.lastIndexOf('/'))}
+        to={pathname.substring(0, pathname.lastIndexOf('/')) || '/'}
         style={{verticalAlign: 'middle', marginRight: 15}}
     >
       <span className="glyphicon glyphicon-menu-left" />

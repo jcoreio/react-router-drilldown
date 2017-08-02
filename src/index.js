@@ -137,7 +137,7 @@ export function createDrilldown(config: {
       }
 
       const outerStyle = {
-        overflow: 'hidden',
+        overflow: 'visible',
         ...style || {},
       }
 
