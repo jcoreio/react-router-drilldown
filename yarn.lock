@@ -5421,7 +5421,7 @@ react-transition-context@^1.0.0-beta8, react-transition-context@^1.0.0-beta9:
   dependencies:
     prop-types "^15.5.10"
 
-react-view-slider@^2.0.1:
+react-view-slider@^2.0.0:
   version "2.0.1"
   resolved "https://registry.npmjs.org/react-view-slider/-/react-view-slider-2.0.1.tgz#52dd67c3d6ffc0ee2ff82291215050ef6fa6a6dc"
   dependencies:
