@@ -41,7 +41,11 @@ type State = {
 }
 
 function getActiveView({route, routes}: Props): number {
-  return routes[routes.length - 1] === route.indexRoute ? 0 : 1
+  const routeIndex = routes.indexOf(route)
+  for (let i = routeIndex + 1; i < routes.length; i++) {
+    if (routes[i].path) return 1
+  }
+  return 0
 }
 
 export function createDrilldown(config: {
