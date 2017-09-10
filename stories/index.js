@@ -1,6 +1,9 @@
+import React from 'react'
 import {storiesOf} from '@kadira/storybook'
-import Demo from './Demo'
+import FlatDemo, {NestedDemo, RtlDemo} from './Demo'
 
 storiesOf('react-router-drilldown', module)
-  .add('Demo', Demo)
+  .add('Flat', FlatDemo)
+  .add('Nested', NestedDemo)
+  .add('Right-to-Left', () => <RtlDemo />)
 

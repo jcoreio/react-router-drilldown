@@ -6,20 +6,23 @@
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
 This is a simple component that provides drilldown-style horizontal slide transitions between index and child routes.
-It is based upon `react-view-slider`.
-Currently it only supports `react-router` versions 2 and 3.
+It is based upon the `<Switch>` component from `react-router` v4 and uses `react-view-slider` internally.
 
 [Live Demo](http://jcoreio.github.io/react-router-drilldown/)
 
 ## Usage
 ```
-npm install --save react-router-drilldown react-view-slider
+npm install --save react-router react-router-dom react-router-drilldown react-view-slider
 ```
+
+Create a `<Drilldown>` element with child `<Route>`s exactly like you would for a `<Switch>`.
+By default the first child `<Route>` is at the left, and subsequent child routes will slide in from the right.
+However, you also customize the order by giving an integer `key` to each child route.
 
 ```js
 import React from 'react'
 import {render} from 'react-dom'
-import {Router, Route, IndexRoute, Link, browserHistory} from 'react-router'
+import {BrowserRouter as Router, Route, Link} from 'react-router-dom'
 import Drilldown from 'react-router-drilldown'
 
 const Home = () => (
@@ -30,44 +33,69 @@ const Home = () => (
   </div>
 )
 
-const Users = () => (
+const Users = ({match}) => (
   <div>
     <h1>Users</h1>
-    <Link to="/users/andy">Andy</Link>
+    <Link to={`${match.url}/andy`}>Andy</Link>
   </div>
 )
 
 const Andy = () => <h1>Andy</h1>
 
 render(
-  <Router history={browserHistory}>
-    <Route path="/" component={Drilldown}>
-      <IndexRoute component={Home} />
-      <Route path="users" component={Drilldown}>
-        <IndexRoute component={Users} />
-        <Route path="andy" component={Andy} />
-      </Route>
-    </Route>
+  <Router>
+    <Drilldown>
+      <Route exact path="/" component={Home} />
+      <Route exact path="/users" component={Users} />
+      <Route path="/users/andy" component={Andy} />
+    </Drilldown>
   </Router>,
   document.getElementById('root')
 )
 ```
 
-Note how the `/` and `users` routes both have `component={Drilldown}`.  `Drilldown` only animates transitions at one
-level, and only when navigating from the index route to a child route or vice versa, so if you want more than two levels
-in your drilldown UI you must use a `Drilldown` on each level.
+Note: if you transition directly from `/` to `/users/andy` before ever visiting `/users`, the `/users` view will not
+show in the middle of the animated transition.  However, once you have visited `/users`, it will show between the other
+two views when transitioning between them.
+
+## Drilldowns can be nested
+
+Instead of the flat route configuration shown above, you also use a separate drilldown at each level:
+
+```js
+const UsersRoute = ({match}) => (
+  <Drilldown>
+    <Route exact path={match.path} component={Users} />
+    <Route path={`${match.url}/andy`} component={Andy} />
+  </Drilldown>
+)
+
+render(
+  <Router>
+    <Drilldown>
+      <Route exact path="/" component={Home} />
+      <Route path="/users" component={UsersRoute} />
+    </Drilldown>
+  </Router>,
+  document.getElementById('root')
+)
+```
+
+Unlike the flat example above, you will not see the `/users` view fly by in the middle when transitioning directly
+from `/` to `/users/andy`.
 
 ## withTransitionContext
+
 You can use this with my [react-transition-context](https://github.com/jedwards1211/react-transition-context) package
 to easily focus elements when a drilldown route has fully entered.
 ```
-npm install --save react-router-drilldown react-view-slider react-transition-context
+npm install --save react-router react-router-dom react-router-drilldown react-view-slider react-transition-context
 ```
 
 ```js
 import React from 'react'
 import {render} from 'react-dom'
-import {Router, Route, IndexRoute, Link, browserHistory} from 'react-router'
+import {BrowserRouter as Router, Route, Link} from 'react-router-dom'
 import Drilldown from 'react-router-drilldown/lib/withTransitionContext'
 import {TransitionListener} from 'react-transition-context'
 
@@ -79,10 +107,10 @@ const Home = () => (
   </div>
 )
 
-const Users = () => (
+const Users = ({match}) => (
   <div>
     <h1>Users</h1>
-    <Link to="/users/andy">Andy</Link>
+    <Link to={`${match.url}/andy`}>Andy</Link>
   </div>
 )
 
@@ -99,26 +127,18 @@ class Andy extends React.Component {
 }
 
 render(
-  <Router history={browserHistory}>
-    <Route path="/" component={Drilldown}>
-      <IndexRoute component={Home} />
-      <Route path="users" component={Drilldown}>
-        <IndexRoute component={Users} />
-        <Route path="andy" component={Andy} />
-      </Route>
-    </Route>
+  <Router>
+    <Drilldown>
+      <Route exact path="/" component={Home} />
+      <Route exact path="/users" component={Users} />
+      <Route path="/users/andy" component={Andy} />
+    </Drilldown>
   </Router>,
   document.getElementById('root')
 )
 ```
 
-## Props that should be injected by `react-router`
-
-* `route`
-* `routes`
-* `children`
-
-## Props that are passed along to [`react-view-slider`](https://github.com/jcoreio/react-view-slider)
+## Props
 
 ### `animateHeight: boolean` (default: `true`)
 
@@ -156,4 +176,7 @@ Any extra class names to add to the inner "viewport" element.
 
 Extra inline styles to add to the inner "viewport" element.
 
+### `location: Location` (default: accessed from `context`)
+
+If given, this location is used instead of the one from `context`.
 

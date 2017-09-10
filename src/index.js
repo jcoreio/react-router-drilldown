@@ -2,29 +2,18 @@
 /* eslint-env shared-node-browser */
 
 import React, {Component} from 'react'
-import DefaultViewSlider from 'react-view-slider'
-import type {ViewProps, Props as ViewSliderProps} from 'react-view-slider'
+import PropTypes from 'prop-types'
+import {matchPath} from 'react-router'
+import type {Location} from 'react-router'
+import DefaultViewSlider from 'react-view-slider/lib/simple'
+import type {Props as ViewSliderProps} from 'react-view-slider/lib/simple'
 import type {Prefixer} from 'inline-style-prefixer'
-
-type Side = 'left' | 'right'
-type TransitionState = 'in' | 'out' | 'entering' | 'leaving'
-
-export type ChildProps = {
-  side: Side,
-  transitionState: TransitionState,
-  children: any,
-  style: Object,
-}
-
-type Route = {
-  indexRoute?: Route,
-  path?: string,
-}
+import invariant from 'invariant'
+import warning from 'warning'
 
 export type Props = {
-  route: Route,
-  routes: Array<Route>,
   children?: any,
+  location?: Location,
   animateHeight?: boolean,
   transitionDuration?: number,
   transitionTimingFunction?: string,
@@ -36,60 +25,61 @@ export type Props = {
   viewportStyle?: Object,
 }
 
-type State = {
-  children: [any, any],
-}
-
-function getActiveView({route, routes}: Props): number {
-  const routeIndex = routes.indexOf(route)
-  for (let i = routeIndex + 1; i < routes.length; i++) {
-    if (routes[i].path) return 1
-  }
-  return 0
-}
-
 export function createDrilldown(config: {
   ViewSlider?: ReactClass<ViewSliderProps>,
 } = {}): ReactClass<Props> {
-  return class Drilldown extends Component<void, Props, State> {
-    state: State
+  const ViewSlider = config.ViewSlider || DefaultViewSlider
 
-    constructor(props: Props) {
-      super(props)
-      const children: [any, any] = [null, null]
-      children[getActiveView(props)] = props.children
-      this.state = {children}
+  return class Drilldown extends Component<void, Props, void> {
+    static contextTypes = {
+      router: PropTypes.shape({
+        route: PropTypes.object.isRequired
+      }).isRequired
+    }
+
+    componentWillMount() {
+      invariant(
+        this.context.router,
+        'You should not use <Drilldown> outside a <Router>'
+      )
     }
 
     componentWillReceiveProps(nextProps: Props) {
-      const {children} = nextProps
-      const viewIndex = getActiveView(nextProps)
-      if (this.state.children[viewIndex] !== children) {
-        const newChildren = [...this.state.children]
-        newChildren[viewIndex] = children
-        this.setState({children: newChildren})
-      }
+      warning(
+        !(nextProps.location && !this.props.location),
+        '<Drilldown> elements should not change from uncontrolled to controlled (or vice versa). You initially used no "location" prop and then provided one on a subsequent render.'
+      )
+
+      warning(
+        !(!nextProps.location && this.props.location),
+        '<Drilldown> elements should not change from controlled to uncontrolled (or vice versa). You provided a "location" prop initially but omitted it on a subsequent render.'
+      )
     }
 
-    renderView = ({index, key, ref, style, transitionState}: ViewProps): React.Element<any> => (
-      <div key={key} ref={ref} style={style} data-transition-state={transitionState}>
-        {this.state.children[index]}
-      </div>
-    )
-
     render(): React.Element<any> {
+      const { route } = this.context.router
       const {
-        animateHeight, transitionDuration, transitionTimingFunction, prefixer, fillParent, className, style,
+        children, animateHeight, transitionDuration, transitionTimingFunction, prefixer, fillParent, className, style,
         viewportClassName, viewportStyle,
       } = this.props
+      const location = this.props.location || route.location
 
-      const ViewSlider = config.ViewSlider || DefaultViewSlider
+      let match, child, key = 0
+      React.Children.forEach(children, (element: any) => {
+        if (!React.isValidElement(element)) return
+
+        const { path: pathProp, exact, strict, sensitive, from } = element.props
+        const path = pathProp || from
+
+        if (match == null) {
+          child = element.key != null ? element : React.cloneElement(element, {key})
+          match = path ? matchPath(location.pathname, { path, exact, strict, sensitive }) : route.match
+        }
+        key++
+      })
 
       return (
         <ViewSlider
-            numViews={2}
-            activeView={getActiveView(this.props)}
-            renderView={this.renderView}
             animateHeight={animateHeight}
             transitionDuration={transitionDuration}
             transitionTimingFunction={transitionTimingFunction}
@@ -99,7 +89,9 @@ export function createDrilldown(config: {
             style={style}
             viewportClassName={viewportClassName}
             viewportStyle={viewportStyle}
-        />
+        >
+          {match ? React.cloneElement((child: any), { location, computedMatch: match }) : null}
+        </ViewSlider>
       )
     }
   }
