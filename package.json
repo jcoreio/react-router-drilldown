@@ -100,7 +100,7 @@
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "react-test-renderer": "^15.5.4",
-    "react-transition-context": "^1.0.0-beta8",
+    "react-transition-context": "^1.0.0",
     "react-view-slider": "^2.1.0",
     "rimraf": "^2.5.4",
     "semantic-release": "^6.3.2",
@@ -115,7 +115,7 @@
     "react-view-slider": "^2.0.0"
   },
   "optionalDependencies": {
-    "react-transition-context": "^1.0.0-beta8"
+    "react-transition-context": "^1.0.0"
   },
   "dependencies": {
     "inline-style-prefixer": "^2.0.5",
