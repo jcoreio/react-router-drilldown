@@ -101,7 +101,7 @@
     "react-router-dom": "^4.2.2",
     "react-test-renderer": "^15.5.4",
     "react-transition-context": "^1.0.0",
-    "react-view-slider": "^2.1.0",
+    "react-view-slider": "^2.1.1",
     "rimraf": "^2.5.4",
     "semantic-release": "^6.3.2",
     "sinon": "^1.17.6",

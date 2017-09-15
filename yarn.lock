@@ -5447,21 +5447,15 @@ react-transition-context@^1.0.0:
   dependencies:
     prop-types "^15.5.10"
 
-react-transition-context@^1.0.0-beta9:
-  version "1.0.0-beta9"
-  resolved "https://registry.npmjs.org/react-transition-context/-/react-transition-context-1.0.0-beta9.tgz#6385b8bcc2abbdae21665dd55ecb7bdd861167ab"
-  dependencies:
-    prop-types "^15.5.10"
-
-react-view-slider@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.npmjs.org/react-view-slider/-/react-view-slider-2.1.0.tgz#39411abbef85b2fd3dc0db12803b8403114ceda4"
+react-view-slider@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.npmjs.org/react-view-slider/-/react-view-slider-2.1.1.tgz#348a4af734d04f3892a0e4e4957357215e4b4c4b"
   dependencies:
     inline-style-prefixer "^3.0.6"
     lodash.range "^3.2.0"
     prop-types "^15.0.0"
   optionalDependencies:
-    react-transition-context "^1.0.0-beta9"
+    react-transition-context "^1.0.0"
 
 react@^15.5.4:
   version "15.6.1"
