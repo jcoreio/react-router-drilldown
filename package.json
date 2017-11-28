@@ -85,7 +85,7 @@
     "eslint-plugin-flowtype": "^2.29.1",
     "eslint-plugin-react": "^6.8.0",
     "eslint-watch": "^2.1.14",
-    "flow-bin": "^0.37.4",
+    "flow-bin": "^0.56.0",
     "flow-watch": "^1.1.0",
     "husky": "^0.12.0",
     "istanbul": "^0.4.5",
@@ -100,8 +100,8 @@
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "react-test-renderer": "^15.5.4",
-    "react-transition-context": "^1.0.0",
-    "react-view-slider": "^2.1.1",
+    "react-transition-context": "^2.0.0",
+    "react-view-slider": "^3.0.0",
     "rimraf": "^2.5.4",
     "semantic-release": "^6.3.2",
     "sinon": "^1.17.6",
@@ -114,9 +114,7 @@
     "react-router": "^4.0.0",
     "react-view-slider": "^2.0.0"
   },
-  "optionalDependencies": {
-    "react-transition-context": "^1.0.0"
-  },
+  "optionalDependencies": {},
   "dependencies": {
     "inline-style-prefixer": "^2.0.5",
     "prop-types": "^15.5.10"

@@ -1,7 +1,7 @@
 /* @flow */
 /* eslint-env shared-node-browser */
 
-import React, {Component} from 'react'
+import * as React from 'react'
 import PropTypes from 'prop-types'
 import {matchPath} from 'react-router'
 import type {Location} from 'react-router'
@@ -26,11 +26,11 @@ export type Props = {
 }
 
 export function createDrilldown(config: {
-  ViewSlider?: ReactClass<ViewSliderProps>,
-} = {}): ReactClass<Props> {
+  ViewSlider?: React.ComponentType<ViewSliderProps>,
+} = {}): React.ComponentType<Props> {
   const ViewSlider = config.ViewSlider || DefaultViewSlider
 
-  return class Drilldown extends Component<void, Props, void> {
+  return class Drilldown extends React.Component<Props, void> {
     static contextTypes = {
       router: PropTypes.shape({
         route: PropTypes.object.isRequired
@@ -56,7 +56,7 @@ export function createDrilldown(config: {
       )
     }
 
-    render(): React.Element<any> {
+    render(): React.Node {
       const { route } = this.context.router
       const {
         children, animateHeight, transitionDuration, transitionTimingFunction, prefixer, fillParent, className, style,
