@@ -80,7 +80,8 @@
     "copy": "^0.3.0",
     "coveralls": "^2.11.15",
     "css-loader": "^0.28.4",
-    "enzyme": "^2.8.2",
+    "enzyme": "^3.2.0",
+    "enzyme-adapter-react-16": "^1.1.0",
     "eslint": "^3.12.2",
     "eslint-plugin-flowtype": "^2.29.1",
     "eslint-plugin-react": "^6.8.0",
@@ -94,8 +95,8 @@
     "lodash.size": "^4.2.0",
     "mocha": "^3.2.0",
     "nyc": "^10.0.0",
-    "react": "^15.5.4",
-    "react-dom": "^15.5.4",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
     "react-hot-loader": "^3.0.0-beta.2",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
@@ -110,13 +111,13 @@
     "webpack": "^1.14.0"
   },
   "peerDependencies": {
-    "react": "0.14.x || ^15.0.0",
+    "react": "0.14.x || ^15.0.0 || ^16",
     "react-router": "^4.0.0",
-    "react-view-slider": "^2.0.0"
+    "react-view-slider": "^3.0.0"
   },
   "optionalDependencies": {},
   "dependencies": {
     "inline-style-prefixer": "^2.0.5",
-    "prop-types": "^15.5.10"
+    "prop-types": "^15.6.0"
   }
 }

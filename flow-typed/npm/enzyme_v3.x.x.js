@@ -1,5 +1,5 @@
-// flow-typed signature: 905cf3353a9aaa3647dc2232b1cd864a
-// flow-typed version: 8742c67386/enzyme_v2.3.x/flow_>=v0.53.x
+// flow-typed signature: 687805dabf4b11b8ad99d263c9d3703d
+// flow-typed version: f0c7fe5246/enzyme_v3.x.x/flow_>=v0.53.x
 
 import * as React from "react";
 
@@ -26,6 +26,7 @@ declare module "enzyme" {
     containsAnyMatchingElements(nodes: NodeOrNodes): boolean,
     dive(option?: { context?: Object }): this,
     exists(): boolean,
+    isEmptyRender(): boolean,
     matchesElement(node: React.Node): boolean,
     hasClass(className: string): boolean,
     is(selector: EnzymeSelector): boolean,
@@ -41,7 +42,6 @@ declare module "enzyme" {
     text(): string,
     html(): string,
     get(index: number): React.Node,
-    getNode(): React.Node,
     getNodes(): Array<React.Node>,
     getDOMNode(): HTMLElement | HTMLInputElement,
     at(index: number): this,
@@ -78,24 +78,28 @@ declare module "enzyme" {
     length: number
   }
 
-  declare export class ReactWrapper extends Wrapper {
+  declare class ReactWrapper extends Wrapper {
     constructor(nodes: NodeOrNodes, root: any, options?: ?Object): ReactWrapper,
     mount(): this,
     ref(refName: string): this,
     detach(): void
   }
 
-  declare export class ShallowWrapper extends Wrapper {
-    constructor(nodes: NodeOrNodes, root: any, options?: ?Object): ShallowWrapper;
+  declare class ShallowWrapper extends Wrapper {
+    constructor(
+      nodes: NodeOrNodes,
+      root: any,
+      options?: ?Object
+    ): ShallowWrapper,
     equals(node: React.Node): boolean,
     shallow(options?: { context?: Object }): ShallowWrapper
   }
 
-  declare export function shallow(
+  declare function shallow(
     node: React.Node,
-    options?: { context?: Object }
+    options?: { context?: Object, disableLifecycleMethods?: boolean }
   ): ShallowWrapper;
-  declare export function mount(
+  declare function mount(
     node: React.Node,
     options?: {
       context?: Object,
@@ -103,8 +107,20 @@ declare module "enzyme" {
       childContextTypes?: Object
     }
   ): ReactWrapper;
-  declare export function render(
+  declare function render(
     node: React.Node,
     options?: { context?: Object }
   ): CheerioWrapper;
+
+  declare module.exports: {
+    configure(options: {
+      Adapter?: any,
+      disableLifecycleMethods?: boolean
+    }): void,
+    render: typeof render,
+    mount: typeof mount,
+    shallow: typeof shallow,
+    ShallowWrapper: typeof ShallowWrapper,
+    ReactWrapper: typeof ReactWrapper
+  };
 }
