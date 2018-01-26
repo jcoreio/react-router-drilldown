@@ -8,7 +8,7 @@
 This is a simple component that provides drilldown-style horizontal slide transitions between index and child routes.
 It is based upon the `<Switch>` component from `react-router` v4 and uses `react-view-slider` internally.
 
-For `react-router` v2 or v3, see the [v2 branch](https://github.com/jcoreio/react-router-drilldown/tree/v2).
+For `react-router` v2 or v3, see the [legacy project](https://github.com/jcoreio/react-router-3-drilldown).
 
 [Live Demo](http://jcoreio.github.io/react-router-drilldown/)
 
