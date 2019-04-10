@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .babelrc
 .eslintrc
 .flowconfig
@@ -12,3 +13,19 @@ index.html
 demo.js
 demo.webpack.config.js
 
+=======
+**
+!**/*.js
+!**/*.js.flow
+!/*.md
+!yarn.lock
+/lib
+/src
+/stories
+/test
+/coverage
+/flow-typed
+__tests__
+/.*
+!/.flowconfig
+>>>>>>> 089a3a0b3327ce5fc22d8af2ed8dc2508ac70908

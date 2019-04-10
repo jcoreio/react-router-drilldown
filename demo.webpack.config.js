@@ -6,7 +6,7 @@ module.exports = {
   entry: './stories/standaloneDemo',
   output: {
     path: __dirname,
-    filename: 'demo.js'
+    filename: 'demo.js',
   },
   module: {
     loaders: [
@@ -18,8 +18,8 @@ module.exports = {
       {
         test: /\.css$/,
         loader: 'style-loader!css-loader',
-      }
-    ]
+      },
+    ],
   },
   plugins: [
     new webpack.DefinePlugin({
@@ -28,8 +28,7 @@ module.exports = {
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         warnings: false,
-      }
+      },
     }),
-  ]
+  ],
 }
-
