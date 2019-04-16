@@ -4,7 +4,7 @@
 [![Coverage Status](https://codecov.io/gh/jcoreio/react-router-drilldown/branch/master/graph/badge.svg)](https://codecov.io/gh/jcoreio/react-router-drilldown)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
-[![npm version](https://badge.fury.io/js/react-library-skeleton.svg)](https://badge.fury.io/js/react-library-skeleton)
+[![npm version](https://badge.fury.io/js/react-router-drilldown.svg)](https://badge.fury.io/js/react-router-drilldown)
 
 This is a simple component that provides drilldown-style horizontal slide transitions between index and child routes.
 It is based upon the `<Switch>` component from `react-router` v4 and uses `react-view-slider` internally.
@@ -91,65 +91,6 @@ render(
 
 Unlike the flat example above, you will not see the `/users` view fly by in the middle when transitioning directly
 from `/` to `/users/andy`.
-
-## withTransitionContext
-
-You can use this with my [react-transition-context](https://github.com/jedwards1211/react-transition-context) package
-to easily focus elements when a drilldown route has fully entered.
-
-```
-npm install --save react-router react-router-dom react-router-drilldown react-view-slider react-transition-context
-```
-
-```js
-import React from 'react'
-import { render } from 'react-dom'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
-import Drilldown from 'react-router-drilldown/lib/withTransitionContext'
-import { TransitionListener } from 'react-transition-context'
-
-const Home = () => (
-  <div>
-    <h1>Home</h1>
-    <p>
-      <Link to="/users">Users</Link>
-    </p>
-    <p>
-      <Link to="/users/andy">Andy</Link>
-    </p>
-  </div>
-)
-
-const Users = ({ match }) => (
-  <div>
-    <h1>Users</h1>
-    <Link to={`${match.url}/andy`}>Andy</Link>
-  </div>
-)
-
-class Andy extends React.Component {
-  render() {
-    return (
-      <div>
-        <h1>Andy</h1>
-        <input ref={c => (this.email = c)} placeholder="email" />
-        <TransitionListener didComeIn={() => this.email.focus()} />
-      </div>
-    )
-  }
-}
-
-render(
-  <Router>
-    <Drilldown>
-      <Route exact path="/" component={Home} />
-      <Route exact path="/users" component={Users} />
-      <Route path="/users/andy" component={Andy} />
-    </Drilldown>
-  </Router>,
-  document.getElementById('root')
-)
-```
 
 ## Props
 

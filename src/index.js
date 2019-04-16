@@ -4,8 +4,8 @@
 import * as React from 'react'
 import { matchPath, withRouter } from 'react-router'
 import type { Location, Match } from 'react-router'
-import DefaultViewSlider from 'react-view-slider/lib/simple'
-import type { Props as ViewSliderProps } from 'react-view-slider/lib/simple'
+import DefaultViewSlider from 'react-view-slider/simple'
+import type { Props as ViewSliderProps } from 'react-view-slider/simple'
 import type { Prefixer } from 'inline-style-prefixer'
 import warning from 'warning'
 

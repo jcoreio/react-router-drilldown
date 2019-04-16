@@ -2,14 +2,11 @@
 
 import React from 'react'
 import { mount } from 'enzyme'
-import { configure as configureEnzyme } from 'enzyme'
-import Adapter from 'enzyme-adapter-react-16'
-configureEnzyme({ adapter: new Adapter() })
 import { expect } from 'chai'
 import { createMemoryHistory } from 'history'
 import { Router, Route, Link } from 'react-router-dom'
-import Drilldown from '../src/withTransitionContext'
-import TransitionContext from 'react-transition-context'
+import Drilldown from '../src'
+import { TransitionContext } from 'react-transition-context'
 
 function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
@@ -84,7 +81,7 @@ describe('Drilldown', function() {
       comp
         .find('.top-drilldown')
         .find(TransitionContext)
-        .prop('transitionState')
+        .prop('state')
     ).to.equal('in')
     history.push('/users')
     await delay(300)
@@ -94,14 +91,14 @@ describe('Drilldown', function() {
         .find('.top-drilldown')
         .find(TransitionContext)
         .at(1)
-        .prop('transitionState')
+        .prop('state')
     ).to.equal('entering')
     expect(
       comp
         .find('.top-drilldown')
         .find(TransitionContext)
         .at(0)
-        .prop('transitionState')
+        .prop('state')
     ).to.equal('leaving')
     await delay(500)
     comp.update()
@@ -110,14 +107,14 @@ describe('Drilldown', function() {
         .find('.top-drilldown')
         .find(TransitionContext)
         .at(1)
-        .prop('transitionState')
+        .prop('state')
     ).to.equal('in')
     expect(
       comp
         .find('.mid-drilldown')
         .find(TransitionContext)
         .at(0)
-        .prop('transitionState')
+        .prop('state')
     ).to.equal('in')
 
     history.push('/users/andy')
@@ -129,21 +126,21 @@ describe('Drilldown', function() {
         .find('.top-drilldown')
         .find(TransitionContext)
         .at(0)
-        .prop('transitionState')
+        .prop('state')
     ).to.equal('in')
     expect(
       comp
         .find('.mid-drilldown')
         .find(TransitionContext)
         .at(0)
-        .prop('transitionState')
+        .prop('state')
     ).to.equal('leaving')
     expect(
       comp
         .find('.mid-drilldown')
         .find(TransitionContext)
         .at(1)
-        .prop('transitionState')
+        .prop('state')
     ).to.equal('entering')
     await delay(500)
     comp.update()
@@ -153,7 +150,7 @@ describe('Drilldown', function() {
         .find('.mid-drilldown')
         .find(TransitionContext)
         .at(0)
-        .prop('transitionState')
+        .prop('state')
     ).to.equal('in')
   })
   it('animates transitions to index routes', async () => {
@@ -164,14 +161,14 @@ describe('Drilldown', function() {
         .find('.top-drilldown')
         .find(TransitionContext)
         .at(0)
-        .prop('transitionState')
+        .prop('state')
     ).to.equal('in')
     expect(
       comp
         .find('.mid-drilldown')
         .find(TransitionContext)
         .at(0)
-        .prop('transitionState')
+        .prop('state')
     ).to.equal('in')
     history.push('/users')
     await delay(300)
@@ -181,21 +178,21 @@ describe('Drilldown', function() {
         .find('.top-drilldown')
         .find(TransitionContext)
         .at(0)
-        .prop('transitionState')
+        .prop('state')
     ).to.equal('in')
     expect(
       comp
         .find('.mid-drilldown')
         .find(TransitionContext)
         .at(0)
-        .prop('transitionState')
+        .prop('state')
     ).to.equal('entering')
     expect(
       comp
         .find('.mid-drilldown')
         .find(TransitionContext)
         .at(1)
-        .prop('transitionState')
+        .prop('state')
     ).to.equal('leaving')
     await delay(500)
     comp.update()
@@ -204,14 +201,14 @@ describe('Drilldown', function() {
         .find('.top-drilldown')
         .find(TransitionContext)
         .at(0)
-        .prop('transitionState')
+        .prop('state')
     ).to.equal('in')
     expect(
       comp
         .find('.mid-drilldown')
         .find(TransitionContext)
         .at(0)
-        .prop('transitionState')
+        .prop('state')
     ).to.equal('in')
 
     history.push('/')
@@ -222,14 +219,14 @@ describe('Drilldown', function() {
         .find('.top-drilldown')
         .find(TransitionContext)
         .at(0)
-        .prop('transitionState')
+        .prop('state')
     ).to.equal('entering')
     expect(
       comp
         .find('.top-drilldown')
         .find(TransitionContext)
         .at(1)
-        .prop('transitionState')
+        .prop('state')
     ).to.equal('leaving')
     await delay(500)
     comp.update()
@@ -238,7 +235,7 @@ describe('Drilldown', function() {
         .find('.top-drilldown')
         .find(TransitionContext)
         .at(0)
-        .prop('transitionState')
+        .prop('state')
     ).to.equal('in')
   })
   it('handles quick transitions back and forth gracefully', async () => {

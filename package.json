@@ -25,7 +25,11 @@
     "test:debug": "cross-env NODE_ENV=production BABEL_ENV=test mocha --inspect-brk $npm_package_config_mocha",
     "codecov": "nyc report --reporter=text-lcov > coverage.lcov; codecov",
     "prepublishOnly": "npm run clean && npm run prettier:check && npm run lint && flow && npm test && npm run build",
-    "open:coverage": "open coverage/lcov-report/index.html"
+    "open:coverage": "open coverage/lcov-report/index.html",
+    "demo:dev": "webpack-dev-server",
+    "build:demo": "cross-env NODE_ENV=production BABEL_ENV=es5 webpack",
+    "predeploy": "yarn build:demo",
+    "deploy": "gh-pages -d demo"
   },
   "husky": {
     "hooks": {
@@ -103,8 +107,10 @@
     "@jedwards1211/eslint-config": "^2.0.0",
     "@jedwards1211/eslint-config-flow": "^1.0.2",
     "@jedwards1211/eslint-config-react": "^4.0.0",
+    "@material-ui/core": "^3.9.3",
+    "@material-ui/icons": "^3.0.2",
     "babel-eslint": "^10.0.1",
-    "babel-loader": "^6.2.10",
+    "babel-loader": "^8.0.5",
     "babel-plugin-flow-react-proptypes": "^24.1.2",
     "babel-plugin-istanbul": "^5.1.0",
     "chai": "^4.2.0",
@@ -122,6 +128,7 @@
     "flow-bin": "^0.92.0",
     "flow-copy-source": "^2.0.2",
     "flow-watch": "^1.1.4",
+    "gh-pages": "^2.0.1",
     "husky": "^1.1.4",
     "istanbul": "^0.4.5",
     "jsdom": "^11.5.1",
@@ -132,28 +139,29 @@
     "nyc": "^13.1.0",
     "prettier": "^1.15.2",
     "prettier-eslint": "^8.8.2",
-    "react": "^16.6.3",
-    "react-dom": "^16.6.3",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
-    "react-test-renderer": "^15.5.4",
-    "react-transition-context": "^2.1.0",
-    "react-view-slider": "^3.0.7",
+    "react-test-renderer": "^16.8.6",
+    "react-transition-context": "^5.0.0",
     "rimraf": "^2.6.0",
     "semantic-release": "^15.13.3",
     "sinon": "^1.17.6",
     "style-loader": "^0.18.2",
-    "webpack": "^1.14.0"
+    "webpack": "^4.30.0",
+    "webpack-cli": "^3.3.0",
+    "webpack-dev-server": "^3.3.1"
   },
   "dependencies": {
     "@babel/runtime": "^7.1.5",
     "inline-style-prefixer": "^2.0.5",
-    "prop-types": "^15.6.0"
+    "prop-types": "^15.6.0",
+    "react-view-slider": "^4.0.0"
   },
   "peerDependencies": {
-    "react": "^15.0.0 || ^16.0.0",
-    "react-router": "^4.0.0 || ^5.0.0",
-    "react-view-slider": "^3.0.0"
+    "react": "^16.8.0",
+    "react-router": "^4.0.0 || ^5.0.0"
   },
   "renovate": {
     "extends": [
