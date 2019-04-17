@@ -132,4 +132,4 @@ Extra inline styles to add to the inner "viewport" element.
 
 ### `location: Location` (default: accessed from `withRouter`)
 
-# If given, this location is used instead of the one from `withRouter`.
+If given, this location is used instead of the one from `withRouter`.
