@@ -130,6 +130,10 @@ Any extra class names to add to the inner "viewport" element.
 
 Extra inline styles to add to the inner "viewport" element.
 
+### `viewStyle: Object`
+
+Extra inline styles to add to the view wrapper elements.
+
 ### `location: Location` (default: accessed from `withRouter`)
 
 If given, this location is used instead of the one from `withRouter`.

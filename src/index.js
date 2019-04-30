@@ -22,6 +22,7 @@ export type Props = {
   style?: Object,
   viewportClassName?: string,
   viewportStyle?: Object,
+  viewStyle?: ?Object,
 }
 
 type InnerProps = Props & {
@@ -60,6 +61,7 @@ export function createDrilldown(
         style,
         viewportClassName,
         viewportStyle,
+        viewStyle,
         match: _match,
         location: _location,
         overrideLocation,
@@ -96,6 +98,7 @@ export function createDrilldown(
           style={style}
           viewportClassName={viewportClassName}
           viewportStyle={viewportStyle}
+          viewStyle={viewStyle}
         >
           {match
             ? React.cloneElement((child: any), {
