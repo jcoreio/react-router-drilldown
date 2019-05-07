@@ -16,7 +16,7 @@ For `react-router` v2 or v3, see the [legacy project](https://github.com/jcoreio
 ## Usage
 
 ```
-npm install --save react-router react-router-dom react-router-drilldown react-view-slider
+npm install --save react-router react-router-dom react-router-drilldown
 ```
 
 Create a `<Drilldown>` element with child `<Route>`s exactly like you would for a `<Switch>`.
