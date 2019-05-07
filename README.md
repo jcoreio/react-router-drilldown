@@ -134,6 +134,12 @@ Extra inline styles to add to the inner "viewport" element.
 
 Extra inline styles to add to the view wrapper elements.
 
+##### `innerViewWrapperStyle: Object`
+
+Extra inline styles to add to the inner div between the `viewStyle` div and your
+view content element. (The inner div was added to ensure perfect height
+animation.)
+
 ### `location: Location` (default: accessed from `withRouter`)
 
 If given, this location is used instead of the one from `withRouter`.
