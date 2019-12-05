@@ -3,16 +3,15 @@
 
 import * as React from 'react'
 import { matchPath, withRouter } from 'react-router'
-import type { Location, Match } from 'react-router'
+import type { Location, Match, RouterHistory } from 'react-router'
 import DefaultViewSlider from 'react-view-slider/simple'
 import type { Props as ViewSliderProps } from 'react-view-slider/simple'
 import type { Prefixer } from 'inline-style-prefixer'
 import warning from 'warning'
 
 export type Props = {
+  location?: ?Location,
   children?: any,
-  location: Location,
-  match: Match,
   animateHeight?: ?boolean,
   transitionDuration?: ?number,
   transitionTimingFunction?: ?string,
@@ -24,7 +23,27 @@ export type Props = {
   viewportStyle?: ?Object,
   viewStyle?: ?Object,
   innerViewWrapperStyle?: ?Object,
-  overrideLocation?: ?Location,
+}
+export type InnerProps = {
+  children?: any,
+  animateHeight?: ?boolean,
+  transitionDuration?: ?number,
+  transitionTimingFunction?: ?string,
+  prefixer?: ?Prefixer,
+  fillParent?: ?boolean,
+  className?: ?string,
+  style?: ?Object,
+  viewportClassName?: ?string,
+  viewportStyle?: ?Object,
+  viewStyle?: ?Object,
+  innerViewWrapperStyle?: ?Object,
+  history: RouterHistory,
+  staticContext?: {
+    url?: string,
+  },
+  location: Location,
+  match: Match,
+  overrideLocation: ?Location,
 }
 
 export function createDrilldown(
@@ -34,8 +53,8 @@ export function createDrilldown(
 ): React.ComponentType<Props> {
   const ViewSlider = config.ViewSlider || DefaultViewSlider
 
-  class Drilldown extends React.Component<Props, void> {
-    componentDidUpdate(prevProps: Props) {
+  class Drilldown extends React.Component<InnerProps, void> {
+    componentDidUpdate(prevProps: InnerProps) {
       warning(
         !(prevProps.overrideLocation && !this.props.overrideLocation),
         '<Drilldown> elements should not change from controlled to uncontrolled (or vice versa). You provided a "location" prop initially but omitted it on a subsequent render.'
@@ -112,8 +131,8 @@ export function createDrilldown(
   }
 
   const Drilldown2 = withRouter(Drilldown)
-  const Drilldown3 = (props: Props) => (
-    <Drilldown2 {...props} overrideLocation={props.location} />
+  const Drilldown3 = ({ location, ...props }: Props) => (
+    <Drilldown2 {...props} overrideLocation={location} />
   )
   return Drilldown3
 }
