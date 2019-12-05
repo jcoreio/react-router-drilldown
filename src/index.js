@@ -24,9 +24,6 @@ export type Props = {
   viewportStyle?: ?Object,
   viewStyle?: ?Object,
   innerViewWrapperStyle?: ?Object,
-}
-
-type InnerProps = Props & {
   overrideLocation?: ?Location,
 }
 
@@ -37,8 +34,8 @@ export function createDrilldown(
 ): React.ComponentType<Props> {
   const ViewSlider = config.ViewSlider || DefaultViewSlider
 
-  class Drilldown extends React.Component<InnerProps, void> {
-    componentDidUpdate(prevProps: InnerProps) {
+  class Drilldown extends React.Component<Props, void> {
+    componentDidUpdate(prevProps: Props) {
       warning(
         !(prevProps.overrideLocation && !this.props.overrideLocation),
         '<Drilldown> elements should not change from controlled to uncontrolled (or vice versa). You provided a "location" prop initially but omitted it on a subsequent render.'
