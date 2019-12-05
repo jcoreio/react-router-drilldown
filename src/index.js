@@ -131,8 +131,8 @@ export function createDrilldown(
   }
 
   const Drilldown2 = withRouter(Drilldown)
-  const Drilldown3 = ({ location, ...props }: Props) => (
-    <Drilldown2 {...props} overrideLocation={location} />
+  const Drilldown3 = (props: Props) => (
+    <Drilldown2 {...(props: any)} overrideLocation={props.location} />
   )
   return Drilldown3
 }
