@@ -145,7 +145,7 @@
     "react-test-renderer": "^16.8.6",
     "react-transition-context": "^5.0.0",
     "rimraf": "^2.6.0",
-    "semantic-release": "^15.13.3",
+    "semantic-release": "^17.2.3",
     "sinon": "^1.17.6",
     "style-loader": "^0.18.2",
     "webpack": "^4.30.0",
