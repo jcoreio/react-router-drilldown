@@ -16,7 +16,10 @@ describe('Drilldown', function() {
   this.timeout(10000)
   let comp, history
 
-  function init(location = '/') {
+  function init({
+    location = '/',
+    keepPrecedingViewsMounted,
+  }: {| location?: string, keepPrecedingViewsMounted?: boolean |} = {}) {
     const Home = () => (
       <div className="home">
         <h1>Home</h1>
@@ -49,7 +52,10 @@ describe('Drilldown', function() {
     )
 
     const UsersRoute = ({ match }) => (
-      <Drilldown viewportClassName="mid-drilldown">
+      <Drilldown
+        viewportClassName="mid-drilldown"
+        keepPrecedingViewsMounted={keepPrecedingViewsMounted}
+      >
         <Route exact path={match.url} component={Users} />
         <Route path={`${match.url}/andy`} component={Andy} />
       </Drilldown>
@@ -62,7 +68,10 @@ describe('Drilldown', function() {
 
     comp = mount(
       <Router history={history}>
-        <Drilldown viewportClassName="top-drilldown">
+        <Drilldown
+          viewportClassName="top-drilldown"
+          keepPrecedingViewsMounted={keepPrecedingViewsMounted}
+        >
           <Route exact path="/" component={Home} />
           <Route path="/users" component={UsersRoute} />
         </Drilldown>
@@ -152,9 +161,118 @@ describe('Drilldown', function() {
         .at(0)
         .prop('state')
     ).to.equal('in')
+    expect(comp.text()).to.equal('Andy')
+  })
+  it('supports keepPrecedingViewsMounted', async () => {
+    init({ keepPrecedingViewsMounted: true })
+
+    expect(comp.find('h1').text()).to.equal('Home')
+    expect(
+      comp
+        .find('.top-drilldown')
+        .find(TransitionContext)
+        .prop('state')
+    ).to.equal('in')
+    history.push('/users')
+    await delay(300)
+    comp.update()
+    expect(
+      comp
+        .find('.top-drilldown')
+        .find(TransitionContext)
+        .at(1)
+        .prop('state')
+    ).to.equal('entering')
+    expect(
+      comp
+        .find('.top-drilldown')
+        .find(TransitionContext)
+        .at(0)
+        .prop('state')
+    ).to.equal('leaving')
+    await delay(500)
+    comp.update()
+    expect(
+      comp
+        .find('.top-drilldown')
+        .find(TransitionContext)
+        .at(1)
+        .prop('state')
+    ).to.equal('in')
+    expect(
+      comp
+        .find('.mid-drilldown')
+        .find(TransitionContext)
+        .at(0)
+        .prop('state')
+    ).to.equal('in')
+
+    history.push('/users/andy')
+    await delay(300)
+    comp.update()
+    expect(
+      comp
+        .find('.top-drilldown')
+        .find(TransitionContext)
+        .at(1)
+        .prop('state')
+    ).to.equal('in')
+    expect(
+      comp
+        .find('.mid-drilldown')
+        .find(TransitionContext)
+        .at(0)
+        .prop('state')
+    ).to.equal('leaving')
+    expect(
+      comp
+        .find('.mid-drilldown')
+        .find(TransitionContext)
+        .at(1)
+        .prop('state')
+    ).to.equal('entering')
+    await delay(500)
+    comp.update()
+    expect(
+      comp
+        .find('.mid-drilldown')
+        .find(TransitionContext)
+        .at(1)
+        .prop('state')
+    ).to.equal('in')
+
+    expect(comp.text()).to.equal('HomeUsersAndyUsersAndyAndy')
+
+    history.push('/users')
+    await delay(300)
+    comp.update()
+    expect(
+      comp
+        .find('.top-drilldown')
+        .find(TransitionContext)
+        .at(1)
+        .prop('state')
+    ).to.equal('in')
+    expect(
+      comp
+        .find('.mid-drilldown')
+        .find(TransitionContext)
+        .at(0)
+        .prop('state')
+    ).to.equal('entering')
+    expect(
+      comp
+        .find('.mid-drilldown')
+        .find(TransitionContext)
+        .at(1)
+        .prop('state')
+    ).to.equal('leaving')
+
+    await delay(500)
+    expect(comp.update().text()).to.equal('HomeUsersAndyUsersAndy')
   })
   it('animates transitions to index routes', async () => {
-    init('/users/andy')
+    init({ location: '/users/andy' })
 
     expect(
       comp

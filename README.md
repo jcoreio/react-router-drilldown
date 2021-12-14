@@ -96,7 +96,16 @@ from `/` to `/users/andy`.
 
 ### `animateHeight: boolean` (default: `true`)
 
-If truthy, `ViewSlider` will animate its height to match the height of the page at `activePage`.
+If truthy, will animate its height to match the height of the page at `activePage`.
+
+### `keepViewsMounted: boolean` (default: `false`)
+
+If truthy, will keep all routes that have rendered before mounted.
+
+### `keepPrecedingViewsMounted: boolean` (default: `false`)
+
+If truthy, will keep routes preceding the active route mounted (but not routes following the active route).
+The order is determined by the integer `key` properties on your `<Route>`s.
 
 ### `transitionDuration: number` (default: `500`)
 

@@ -13,6 +13,8 @@ export type Props = {
   location?: ?Location,
   children?: any,
   animateHeight?: ?boolean,
+  keepViewsMounted?: ?boolean,
+  keepPrecedingViewsMounted?: ?boolean,
   transitionDuration?: ?number,
   transitionTimingFunction?: ?string,
   prefixer?: ?Prefixer,
@@ -27,6 +29,8 @@ export type Props = {
 export type InnerProps = {
   children?: any,
   animateHeight?: ?boolean,
+  keepViewsMounted?: ?boolean,
+  keepPrecedingViewsMounted?: ?boolean,
   transitionDuration?: ?number,
   transitionTimingFunction?: ?string,
   prefixer?: ?Prefixer,
@@ -70,6 +74,8 @@ export function createDrilldown(
       const {
         children,
         animateHeight,
+        keepViewsMounted,
+        keepPrecedingViewsMounted,
         transitionDuration,
         transitionTimingFunction,
         prefixer,
@@ -108,6 +114,8 @@ export function createDrilldown(
       return (
         <ViewSlider
           animateHeight={animateHeight}
+          keepViewsMounted={keepViewsMounted}
+          keepPrecedingViewsMounted={keepPrecedingViewsMounted}
           transitionDuration={transitionDuration}
           transitionTimingFunction={transitionTimingFunction}
           prefixer={prefixer}
