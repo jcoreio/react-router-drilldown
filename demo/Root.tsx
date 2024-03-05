@@ -4,7 +4,7 @@ import {
   Route,
   Link,
   withRouter,
-  type Match,
+  type match,
 } from 'react-router-dom'
 import Button from '@material-ui/core/Button'
 import Card from '@material-ui/core/Card'
@@ -20,7 +20,7 @@ import ArrowBack from '@material-ui/icons/ArrowBack'
 import withStyles from '@material-ui/core/styles/withStyles'
 import Drilldown from '../src'
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     margin: '0 auto',
   },
@@ -54,7 +54,7 @@ const Root = ({ classes }) => (
 export default withStyles(styles)(Root)
 
 export type BackButtonProps = {
-  match: Match,
+  match: match
 }
 
 const backButtonStyles = {
@@ -79,8 +79,8 @@ const BackButton = withRouter(
 )
 
 export type DrilldownListItemProps = {
-  children: React.Node,
-  to: string,
+  children: React.Node
+  to: string
 }
 
 const DrilldownListItem = ({
@@ -95,7 +95,7 @@ const DrilldownListItem = ({
   </ListItem>
 )
 
-const viewStyles = theme => ({
+const viewStyles = (theme) => ({
   root: {
     maxWidth: 600,
     margin: `16px auto`,
@@ -106,8 +106,8 @@ const viewStyles = theme => ({
 })
 
 export type ViewProps = {
-  classes: { [string]: string },
-  children: React.Node,
+  classes: { [string]: string }
+  children: React.Node
 }
 
 const View = withStyles(viewStyles)(
@@ -143,18 +143,15 @@ const characters = [
   },
   {
     name: 'Bart Simpson',
-    role:
-      'Oldest child and only son of Homer and Marge; brother of Lisa and Maggie.',
+    role: 'Oldest child and only son of Homer and Marge; brother of Lisa and Maggie.',
   },
   {
     name: 'Lisa Simpson',
-    role:
-      'Middle child and eldest daughter of Homer and Marge; sister of Bart and Maggie.',
+    role: 'Middle child and eldest daughter of Homer and Marge; sister of Bart and Maggie.',
   },
   {
     name: 'Maggie Simpson',
-    role:
-      'Youngest child and daughter of Homer and Marge; sister of Bart and Lisa.',
+    role: 'Youngest child and daughter of Homer and Marge; sister of Bart and Lisa.',
   },
   {
     name: 'Ned Flanders',
@@ -169,7 +166,7 @@ const characters = [
 ]
 
 export type CharactersViewProps = {
-  match: Match,
+  match: Match
 }
 
 const CharactersView = ({ match }: CharactersViewProps): React.Node => (
@@ -189,7 +186,7 @@ const CharactersView = ({ match }: CharactersViewProps): React.Node => (
 )
 
 export type CharacterViewProps = {
-  match: Match,
+  match: Match
 }
 
 const CharacterView = ({

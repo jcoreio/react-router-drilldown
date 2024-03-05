@@ -28,7 +28,5 @@ declare module '@babel/plugin-proposal-export-default-from/lib/index' {
 
 // Filename aliases
 declare module '@babel/plugin-proposal-export-default-from/lib/index.js' {
-  declare module.exports: $Exports<
-    '@babel/plugin-proposal-export-default-from/lib/index'
-  >
+  declare module.exports: $Exports<'@babel/plugin-proposal-export-default-from/lib/index'>
 }

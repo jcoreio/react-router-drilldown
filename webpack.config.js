@@ -50,14 +50,6 @@ module.exports = {
         exclude: /node_modules/,
         options: {
           cacheDirectory: true,
-          plugins: [
-            '@babel/plugin-transform-flow-strip-types',
-            '@babel/plugin-syntax-dynamic-import',
-            '@babel/plugin-proposal-export-default-from',
-            '@babel/plugin-proposal-export-namespace-from',
-            '@babel/plugin-proposal-object-rest-spread',
-            '@babel/plugin-proposal-class-properties',
-          ],
           presets: [
             ['@babel/preset-env', { targets: { browsers: 'last 2 versions' } }],
             '@babel/preset-react',
@@ -66,15 +58,28 @@ module.exports = {
         },
         test: /\.js$/,
       },
+      {
+        loader: 'babel-loader',
+        exclude: /node_modules/,
+        options: {
+          cacheDirectory: true,
+          presets: [
+            ['@babel/preset-env', { targets: { browsers: 'last 2 versions' } }],
+            '@babel/preset-react',
+            '@babel/preset-typescript',
+          ],
+        },
+        test: /\.tsx?$/,
+      },
     ],
   },
   externals,
 }
 
 if (!isTest) {
-  module.exports.entry = ['@babel/polyfill', './demo/index.js']
+  module.exports.entry = ['@babel/polyfill', './demo/index.tsx']
   module.exports.devServer = {
     port: 3000,
-    contentBase: path.join(__dirname, 'demo'),
+    // contentBase: path.join(__dirname, "demo"),
   }
 }

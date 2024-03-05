@@ -28,7 +28,5 @@ declare module '@babel/plugin-syntax-dynamic-import/lib/index' {
 
 // Filename aliases
 declare module '@babel/plugin-syntax-dynamic-import/lib/index.js' {
-  declare module.exports: $Exports<
-    '@babel/plugin-syntax-dynamic-import/lib/index'
-  >
+  declare module.exports: $Exports<'@babel/plugin-syntax-dynamic-import/lib/index'>
 }

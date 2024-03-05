@@ -217,9 +217,7 @@ declare module 'sinon/lib/sinon/util/event.js' {
   declare module.exports: $Exports<'sinon/lib/sinon/util/event'>
 }
 declare module 'sinon/lib/sinon/util/fake_server_with_clock.js' {
-  declare module.exports: $Exports<
-    'sinon/lib/sinon/util/fake_server_with_clock'
-  >
+  declare module.exports: $Exports<'sinon/lib/sinon/util/fake_server_with_clock'>
 }
 declare module 'sinon/lib/sinon/util/fake_server.js' {
   declare module.exports: $Exports<'sinon/lib/sinon/util/fake_server'>

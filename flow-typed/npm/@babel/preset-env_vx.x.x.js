@@ -122,9 +122,7 @@ declare module '@babel/preset-env/lib/index.js' {
   declare module.exports: $Exports<'@babel/preset-env/lib/index'>
 }
 declare module '@babel/preset-env/lib/module-transformations.js' {
-  declare module.exports: $Exports<
-    '@babel/preset-env/lib/module-transformations'
-  >
+  declare module.exports: $Exports<'@babel/preset-env/lib/module-transformations'>
 }
 declare module '@babel/preset-env/lib/normalize-options.js' {
   declare module.exports: $Exports<'@babel/preset-env/lib/normalize-options'>
@@ -136,9 +134,7 @@ declare module '@babel/preset-env/lib/targets-parser.js' {
   declare module.exports: $Exports<'@babel/preset-env/lib/targets-parser'>
 }
 declare module '@babel/preset-env/lib/use-built-ins-entry-plugin.js' {
-  declare module.exports: $Exports<
-    '@babel/preset-env/lib/use-built-ins-entry-plugin'
-  >
+  declare module.exports: $Exports<'@babel/preset-env/lib/use-built-ins-entry-plugin'>
 }
 declare module '@babel/preset-env/lib/use-built-ins-plugin.js' {
   declare module.exports: $Exports<'@babel/preset-env/lib/use-built-ins-plugin'>

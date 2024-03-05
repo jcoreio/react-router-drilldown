@@ -56,38 +56,26 @@ declare module 'enzyme-adapter-react-16/src/ReactSixteenAdapter' {
 
 // Filename aliases
 declare module 'enzyme-adapter-react-16/build/detectFiberTags.js' {
-  declare module.exports: $Exports<
-    'enzyme-adapter-react-16/build/detectFiberTags'
-  >
+  declare module.exports: $Exports<'enzyme-adapter-react-16/build/detectFiberTags'>
 }
 declare module 'enzyme-adapter-react-16/build/findCurrentFiberUsingSlowPath.js' {
-  declare module.exports: $Exports<
-    'enzyme-adapter-react-16/build/findCurrentFiberUsingSlowPath'
-  >
+  declare module.exports: $Exports<'enzyme-adapter-react-16/build/findCurrentFiberUsingSlowPath'>
 }
 declare module 'enzyme-adapter-react-16/build/index.js' {
   declare module.exports: $Exports<'enzyme-adapter-react-16/build/index'>
 }
 declare module 'enzyme-adapter-react-16/build/ReactSixteenAdapter.js' {
-  declare module.exports: $Exports<
-    'enzyme-adapter-react-16/build/ReactSixteenAdapter'
-  >
+  declare module.exports: $Exports<'enzyme-adapter-react-16/build/ReactSixteenAdapter'>
 }
 declare module 'enzyme-adapter-react-16/src/detectFiberTags.js' {
-  declare module.exports: $Exports<
-    'enzyme-adapter-react-16/src/detectFiberTags'
-  >
+  declare module.exports: $Exports<'enzyme-adapter-react-16/src/detectFiberTags'>
 }
 declare module 'enzyme-adapter-react-16/src/findCurrentFiberUsingSlowPath.js' {
-  declare module.exports: $Exports<
-    'enzyme-adapter-react-16/src/findCurrentFiberUsingSlowPath'
-  >
+  declare module.exports: $Exports<'enzyme-adapter-react-16/src/findCurrentFiberUsingSlowPath'>
 }
 declare module 'enzyme-adapter-react-16/src/index.js' {
   declare module.exports: $Exports<'enzyme-adapter-react-16/src/index'>
 }
 declare module 'enzyme-adapter-react-16/src/ReactSixteenAdapter.js' {
-  declare module.exports: $Exports<
-    'enzyme-adapter-react-16/src/ReactSixteenAdapter'
-  >
+  declare module.exports: $Exports<'enzyme-adapter-react-16/src/ReactSixteenAdapter'>
 }
