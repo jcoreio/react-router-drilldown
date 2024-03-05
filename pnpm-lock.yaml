@@ -26,6 +26,9 @@ dependencies:
   react-view-slider:
     specifier: ^4.6.0
     version: 4.6.0(react@18.2.0)
+  warning:
+    specifier: ^4.0.3
+    version: 4.0.3
 
 devDependencies:
   '@babel/plugin-syntax-flow':
@@ -7126,7 +7129,7 @@ packages:
   /jsonfile@4.0.0:
     resolution: {integrity: sha512-m6F1R3z8jjlf2imQHS2Qez5sjKWQzbuuhuJ/FKYFRZvPE3PuHcSMVZzfsLhGVOkfd20obL5SWEBew5ShlquNxg==}
     optionalDependencies:
-      graceful-fs: 4.1.15
+      graceful-fs: 4.2.11
     dev: true
 
   /jsonfile@6.1.0:
@@ -10905,7 +10908,6 @@ packages:
     resolution: {integrity: sha512-rpJyN222KWIvHJ/F53XSZv0Zl/accqHR8et1kpaMTD/fLCRxtV8iX8czMzY7sVZupTI3zcUTg8eycS2kNF9l6w==}
     dependencies:
       loose-envify: 1.4.0
-    dev: true
 
   /watchpack@2.4.0:
     resolution: {integrity: sha512-Lcvm7MGST/4fup+ifyKi2hjyIAwcdI4HRgtvTpIUxBRhB+RFtUh8XtDOxUfctVCnhVi+QQj49i91OyvzkJl6cg==}
