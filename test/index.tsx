@@ -5,10 +5,7 @@ import { expect } from 'chai'
 import { createMemoryHistory, History } from 'history'
 import { Router, Route, Link, match } from 'react-router-dom'
 import Drilldown from '../src'
-import {
-  TransitionContext,
-  useTransitionContext,
-} from 'react-transition-context'
+import { useTransitionContext } from 'react-transition-context'
 import { describe, it } from 'mocha'
 import { render, RenderResult, act } from '@testing-library/react'
 

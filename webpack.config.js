@@ -2,19 +2,13 @@
 
 /* eslint-env node */
 
-const webpack = require('webpack')
 const path = require('path')
 const ProgressPlugin = require('webpack/lib/ProgressPlugin')
 const env = process.env.NODE_ENV
 const isTest = env === 'test'
 const isProd = env === 'production'
 
-const plugins = [
-  new webpack.DefinePlugin({
-    'process.env.NODE_ENV': JSON.stringify(env),
-  }),
-  new ProgressPlugin({ profile: false }),
-]
+const plugins = [new ProgressPlugin({ profile: false })]
 
 const externals = isTest
   ? {
@@ -39,6 +33,7 @@ module.exports = {
       },
   plugins,
   resolve: {
+    extensions: ['.tsx', '.ts', '.js', '.json', '.wasm'],
     alias: {
       'react-router-drilldown': path.join(__dirname, 'src'),
     },
@@ -77,9 +72,11 @@ module.exports = {
 }
 
 if (!isTest) {
-  module.exports.entry = ['@babel/polyfill', './demo/index.tsx']
+  module.exports.entry = ['core-js/stable', './demo/index.tsx']
   module.exports.devServer = {
     port: 3000,
-    // contentBase: path.join(__dirname, "demo"),
+    static: {
+      directory: path.join(__dirname, 'demo'),
+    },
   }
 }
