@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { expect } from 'chai'
-import { createMemoryHistory, History } from 'history'
+import { createMemoryHistory, History, Location } from 'history'
 import { Router, Route, Link, match } from 'react-router-dom'
 import Drilldown from '../src'
 import { useTransitionContext } from 'react-transition-context'
@@ -19,8 +19,13 @@ describe('Drilldown', function () {
 
   function init({
     location = '/',
+    overrideLocation,
     keepPrecedingViewsMounted,
-  }: { location?: string; keepPrecedingViewsMounted?: boolean } = {}) {
+  }: {
+    location?: string
+    overrideLocation?: Location | null | undefined
+    keepPrecedingViewsMounted?: boolean
+  } = {}) {
     const Home = () => {
       const state = useTransitionContext()
       return (
@@ -68,6 +73,7 @@ describe('Drilldown', function () {
           viewportClassName="mid-drilldown"
           data-transition-state={state}
           keepPrecedingViewsMounted={keepPrecedingViewsMounted}
+          location={overrideLocation}
         >
           <Route exact path={match.url} component={Users} />
           <Route path={`${match.url}/andy`} component={Andy} />
@@ -85,6 +91,7 @@ describe('Drilldown', function () {
         <Drilldown
           viewportClassName="top-drilldown"
           keepPrecedingViewsMounted={keepPrecedingViewsMounted}
+          location={overrideLocation}
         >
           <Route exact path="/" component={Home} />
           <Route path="/users" component={UsersRoute} />
@@ -102,7 +109,8 @@ describe('Drilldown', function () {
         .querySelector('.home')
         ?.getAttribute('data-transition-state')
     ).to.equal('in')
-    await act(() => history.push('/users'))
+    // eslint-disable-next-line @typescript-eslint/no-deprecated
+    act(() => history.push('/users'))
     await delay(300)
     expect(
       comp.container
@@ -120,10 +128,11 @@ describe('Drilldown', function () {
         .querySelector('.users')
         ?.getAttribute('data-transition-state')
     ).to.equal('in')
-    expect(comp.container.querySelector('.home')).not.to.exist
-    expect(comp.container.querySelector('.andy')).not.to.exist
+    expect(comp.container.querySelector('.home')).to.equal(null)
+    expect(comp.container.querySelector('.andy')).to.equal(null)
 
-    await act(() => history.push('/users/andy'))
+    // eslint-disable-next-line @typescript-eslint/no-deprecated
+    act(() => history.push('/users/andy'))
     await delay(300)
     // there is now only one TransitionContext directly under .top-drilldown
     expect(
@@ -143,8 +152,8 @@ describe('Drilldown', function () {
         .querySelector('.andy')
         ?.getAttribute('data-transition-state')
     ).to.equal('in')
-    expect(comp.container.querySelector('.home')).not.to.exist
-    expect(comp.container.querySelector('.users')).not.to.exist
+    expect(comp.container.querySelector('.home')).to.equal(null)
+    expect(comp.container.querySelector('.users')).to.equal(null)
   })
   it('supports keepPrecedingViewsMounted', async () => {
     init({ keepPrecedingViewsMounted: true })
@@ -392,5 +401,28 @@ describe('Drilldown', function () {
         .querySelector('.andy')
         ?.getAttribute('data-transition-state')
     ).to.equal(undefined)
+  })
+
+  it(`supports location override property`, async function () {
+    init({
+      location: '/',
+      overrideLocation: { pathname: '/users', search: '', state: '', hash: '' },
+    })
+    expect(
+      comp.container
+        .querySelector('.users')
+        ?.getAttribute('data-transition-state')
+    ).to.equal('in')
+  })
+  it(`supports location override property 2`, async function () {
+    init({
+      location: '/users',
+      overrideLocation: { pathname: '/', search: '', state: '', hash: '' },
+    })
+    expect(
+      comp.container
+        .querySelector('.home')
+        ?.getAttribute('data-transition-state')
+    ).to.equal('in')
   })
 })

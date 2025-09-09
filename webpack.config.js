@@ -10,8 +10,9 @@ const isProd = env === 'production'
 
 const plugins = [new ProgressPlugin({ profile: false })]
 
-const externals = isTest
-  ? {
+const externals =
+  isTest ?
+    {
       cheerio: 'window',
       'react/addons': true,
       'react/lib/ExecutionEnvironment': true,
@@ -22,8 +23,9 @@ const externals = isTest
 module.exports = {
   mode: isProd ? 'production' : 'development',
   devtool: isTest ? 'source-map' : 'eval',
-  output: isTest
-    ? {
+  output:
+    isTest ?
+      {
         library: 'reactRouterDrilldown',
         libraryTarget: 'umd',
       }
